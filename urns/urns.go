@@ -20,6 +20,9 @@ const (
 	// FacebookScheme is the scheme used for Facebook identifiers
 	FacebookScheme string = "facebook"
 
+	// InstagramScheme is the scheme used for Instagram identifiers
+	InstagramScheme string = "instagram"
+
 	// FCMScheme is the scheme used for Firebase Cloud Messaging identifiers
 	FCMScheme string = "fcm"
 
@@ -62,6 +65,9 @@ const (
 	// FacebookRefPrefix is the path prefix used for facebook referral URNs
 	FacebookRefPrefix string = "ref:"
 
+	// InstagramRefPrefix is the path prefix used for instagram referral URNs
+	InstagramRefPrefix string = "ref:"
+
 	// DiscordScheme is the scheme used for Discord identifiers (user IDs not usernames)
 	DiscordScheme string = "discord"
 
@@ -76,6 +82,7 @@ var ValidSchemes = map[string]bool{
 	FacebookScheme:   true,
 	FCMScheme:        true,
 	FreshChatScheme:  true,
+	InstagramScheme:  true,
 	JiochatScheme:    true,
 	LineScheme:       true,
 	RocketChatScheme: true,
@@ -133,6 +140,11 @@ func NewFirebaseURN(identifier string) (URN, error) {
 // NewFacebookURN returns a URN for the passed in facebook identifier
 func NewFacebookURN(identifier string) (URN, error) {
 	return NewURNFromParts(FacebookScheme, identifier, "", "")
+}
+
+// NewInstagramURN returns a URN for the passed in instagram identifier
+func NewInstagramURN(identifier string) (URN, error) {
+	return NewURNFromParts(InstagramScheme, identifier, "", "")
 }
 
 // NewDiscordURN returns a URN for the passed in Discord identifier
@@ -265,6 +277,10 @@ func (u URN) Validate() error {
 		// otherwise, this should be an int
 		if !allDigitsRegex.MatchString(path) {
 			return fmt.Errorf("invalid facebook id: %s", path)
+		}
+	case InstagramScheme:
+		if !allDigitsRegex.MatchString(path) {
+			return fmt.Errorf("invalid instagram id: %s", path)
 		}
 	case JiochatScheme:
 		if !allDigitsRegex.MatchString(path) {
